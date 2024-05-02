@@ -71,3 +71,15 @@ def readApplicationsFile():
     inputFile.close()
     return applicationList
 
+def processApplication(app, inputFuzziSets, outputFuzzySets, rules):
+    ...
+    fuzzifi(app, inputFuzziSets)
+
+    for r in rules:
+        evaluateAntecedent(r, inputFuzziSets)
+        evaluateConsequent(r, outputFuzzySets)
+        appOutY = composition(r, appOutY)
+
+    centroid = skf.centroid(appOutX, appOutY)
+    return centroid
+
