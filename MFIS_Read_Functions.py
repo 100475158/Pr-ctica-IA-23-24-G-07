@@ -87,3 +87,4 @@ def processApplication(app, inputFuzziSets, outputFuzzySets, rules):
         centroid = skf.centroid(appOutX, appOutY)
         return (centroid)
 
+# Hay que hacer las funciones fuzzify, evaluateAntecedent, evaluateConsequent y la de composition
