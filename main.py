@@ -22,8 +22,3 @@ def main():
         centroid = processApplication(application, inputFuzzySets, outputFuzzySets, rules)
         outputFile.write(application.appId + " " + str (centroid) + "\n")
     outputFile. close()
-
-
-# call main when run as script
-if _name_ == '_main_':
-    main()

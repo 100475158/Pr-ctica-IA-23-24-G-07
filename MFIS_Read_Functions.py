@@ -72,14 +72,18 @@ def readApplicationsFile():
     return applicationList
 
 def processApplication(app, inputFuzziSets, outputFuzzySets, rules):
-    ...
-    fuzzifi(app, inputFuzziSets)
-
-    for r in rules:
-        evaluateAntecedent(r, inputFuzziSets)
-        evaluateConsequent(r, outputFuzzySets)
-        appOutY = composition(r, appOutY)
-
-    centroid = skf.centroid(appOutX, appOutY)
-    return centroid
+    def processApplication(app, inputFuzzySets, outputFuzzySets, rules):
+        # step 1: fuzzification
+        fuzzify(app, inputFuzzySets)
+        # step 2: inference
+        for r in rules:
+            # step 2.1: compute strength of the antecedent
+            evaluateAntecedent(r, inputFuzzySets)
+            # step 2.2: clip the consequent
+            evaluateConseguent(r, outputFuzzySets)
+            # step 2.3: accumulate the output
+            appOutY = composition(r, appOutY)
+        # step 3: defuzzification
+        centroid = skf.centroid(appOutX, appOutY)
+        return (centroid)
 
