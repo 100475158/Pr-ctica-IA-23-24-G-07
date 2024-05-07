@@ -109,8 +109,8 @@ def fuzzify(application, inputFuzzySets):
         var_name, value = data_pair
         if var_name in inputFuzzySets:
             fuzzy_set = inputFuzzySets[var_name]
-            # Calculate membership degree using custom membership function
-            membership_degree = custom_membership_function(value, fuzzy_set)
+            # Calculate membership degree using numpy interp
+            membership_degree = np.interp(value, fuzzy_set[:, 0], fuzzy_set[:, 1])
             # Store membership degree in the application object
             data_pair.append(membership_degree)
         else:

@@ -3,17 +3,19 @@ import skfuzzy as skf
 import matplotlib.pyplot as plt
 from MFIS_Classes import *
 from MFIS_Read_Functions import *
+"from MFIS_Draw_Functions import *"
+
 
 
 def main():
     # read files
     inputFuzzySets = readFuzzySetsFile('InputVarSets.txt')
-    outputFuzzySets = readFuzzySetsFile('Risks.txt')
+    outputFuzzySets = readFuzzySetsFile('Files/Risks.txt')
     rules = readRulesFile()
     applications = readApplicationsFile()
-    inputFuzzySets.printFuzzySetsDict()
+    """inputFuzzySets.printFuzzySetsDict()
     outputFuzzySets.printFuzzySetsDict()
-    rules.printRuleList()
+    rules.printRuleList()"""
     for application in applications:
         application.printApplication()
     #process all the applications and write Rests file
@@ -22,3 +24,4 @@ def main():
         centroid = processApplication(application, inputFuzzySets, outputFuzzySets, rules)
         outputFile.write(application.appId + " " + str (centroid) + "\n")
     outputFile. close()
+main()
