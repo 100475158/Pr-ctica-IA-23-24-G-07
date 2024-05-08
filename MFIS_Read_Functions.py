@@ -2,6 +2,7 @@
 import numpy as np
 import skfuzzy as skf
 import matplotlib.pyplot as plt
+from pathlib import Path
 from MFIS_Classes import *
 
 
@@ -16,6 +17,7 @@ def readFuzzySetsFile(fleName):
     while line != '':
         fuzzySet = FuzzySet()  # just one fuzzy set
         elementsList = line.split(', ')
+        print(elementsList)
         setid = elementsList[0]
         var_label = setid.split('=')
         fuzzySet.var = var_label[0]
@@ -105,16 +107,19 @@ def fuzzify(application, inputFuzzySets):
 
     Modifies the 'application' object by adding fuzzified values.
     """
+    print(application.data)
+    print(inputFuzzySets)
     for data_pair in application.data:
         var_name, value = data_pair
-        if var_name in inputFuzzySets:
-            fuzzy_set = inputFuzzySets[var_name]
-            # Calculate membership degree using numpy interp
-            membership_degree = np.interp(value, fuzzy_set[:, 0], fuzzy_set[:, 1])
-            # Store membership degree in the application object
-            data_pair.append(membership_degree)
-        else:
-            raise ValueError(f"Undefined fuzzy set for variable '{var_name}'")
+        print(data_pair)
+        for object in inputFuzzySets.values():
+            print(object.x,object.y)
+            if var_name == object.var:
+                #fuzzy_set = inputFuzzySets[var_name]
+                # Calculate membership degree using numpy interp
+                membership_degree = np.interp(value, object.x, object.y)
+                # Store membership degree in the application object
+                data_pair.append(membership_degree)
 
 
 def custom_membership_function(value, fuzzy_set):
