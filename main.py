@@ -53,12 +53,11 @@ def fuzzify(application, inputFuzzySets):
     for var_value in application.data:
         for setid in inputFuzzySets:
             if inputFuzzySets[setid].var == var:
-                inputFuzzySets[setid].memDegree = skf.internp_membership[inputFuzzySets[setid].x,
-                                                                         inputFuzzySets[setid].y, var_value]
+                inputFuzzySets[setid].memDegree = skf.internp_membership[inputFuzzySets[setid].x, inputFuzzySets[setid].y, var_value]
 
 
 def evaluateAntecedent(rule, inputFuzzySets):
-    rule.strength = 1.0
+    rule.strength = 1
     for ant in rule.antecedent:
         rule.strength = min(rule.strength, inputFuzzySets[ant].memDegree)
 
@@ -66,14 +65,14 @@ def evaluateAntecedent(rule, inputFuzzySets):
 def evaluateConsequent(rule, outputFuzzySets):
     rule.consequentX = outputFuzzySets[rule.consequent].x
     rule.consequentY = outputFuzzySets[rule.consequent].y
-    rule.consequentY = np.maximum(rule.consequentY, rule.strength)
+    rule.consequentY = np.minimum(rule.consequentY, rule.strength)
 
 
 def compose_output(rule, appOutY):
-    Xnew = np.linspace(0, 100, len(appOutY))
+    """Xnew = np.linspace(0, 100, len(appOutY))
     Xold = np.linspace(0, 100, len(rule.consequentY))
-    interpolatedY = np.interp(Xnew, Xold, rule.consequentY)
-    return np.maximum(interpolatedY, appOutY)
+    interpolatedY = np.interp(Xnew, Xold, rule.consequentY)"""
+    return np.maximum(rule.consequentY, appOutY)
 
 
 def plot_fuzzy_sets(fuzzy_sets):
