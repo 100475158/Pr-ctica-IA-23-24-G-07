@@ -51,7 +51,7 @@ def fuzzify(application, inputFuzzySets):
     for var_value in application.data:
         for setid in inputFuzzySets:
             if inputFuzzySets[setid].var == var_value[0]:
-                inputFuzzySets[setid].memDegree = skf.interp_membership(inputFuzzySets[setid].x, inputFuzzySets[setid].y, var_value[1])
+                inputFuzzySets[setid].memDegree = np.interp(var_value[1],inputFuzzySets[setid].x, inputFuzzySets[setid].y)
 def evaluateAntecedent(rule, inputFuzzySets):
     rule.strength = 1
     for ant in rule.antecedent:
