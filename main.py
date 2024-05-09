@@ -1,6 +1,5 @@
 
 from matplotlib import pyplot as plt
-from numpy import var
 from MFIS_Read_Functions import *
 
 # Add docstrings to describe the purpose of functions
