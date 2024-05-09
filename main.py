@@ -1,7 +1,6 @@
-import numpy as np
+
 from matplotlib import pyplot as plt
 from numpy import var
-
 from MFIS_Read_Functions import *
 
 # Add docstrings to describe the purpose of functions
@@ -15,8 +14,6 @@ def main():
     plot_output_fuzzy_sets(outputFuzzySets)
     rules = readRulesFile()
     applications = readApplicationsFile()
-    inputFuzzySets.printFuzzySetsDict()
-    outputFuzzySets.printFuzzySetsDict()
     outputFile = open('Results.txt', "w")
     # process all the applications and write Rests file
     for application in applications:
@@ -24,6 +21,8 @@ def main():
             application, inputFuzzySets, outputFuzzySets, rules)
         outputFile.write(application.appId + " " + str(centroid) + "\n")
     outputFile.close()
+    inputFuzzySets.printFuzzySetsDict()
+    outputFuzzySets.printFuzzySetsDict()
     plt.show()
 
     # Hay que hacer las funciones fuzzify, evaluateAntecedent, evaluateConsequent y la de composition
@@ -52,14 +51,13 @@ def processApplication(app, inputFuzzySets, outputFuzzySets, rules):
 def fuzzify(application, inputFuzzySets):
     for var_value in application.data:
         for setid in inputFuzzySets:
-            if inputFuzzySets[setid].var == var:
-                inputFuzzySets[setid].memDegree = skf.internp_membership[inputFuzzySets[setid].x, inputFuzzySets[setid].y, var_value]
-
-
+            if inputFuzzySets[setid].var == var_value[0]:
+                inputFuzzySets[setid].memDegree = skf.interp_membership(inputFuzzySets[setid].x, inputFuzzySets[setid].y, var_value[1])
 def evaluateAntecedent(rule, inputFuzzySets):
     rule.strength = 1
     for ant in rule.antecedent:
         rule.strength = min(rule.strength, inputFuzzySets[ant].memDegree)
+        #print(rule.strength,inputFuzzySets[ant].memDegree)
 
 
 def evaluateConsequent(rule, outputFuzzySets):

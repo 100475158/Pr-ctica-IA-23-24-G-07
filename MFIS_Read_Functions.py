@@ -14,7 +14,6 @@ def readFuzzySetsFile(fleName):
     while line != '':
         fuzzySet = FuzzySet()  # just one fuzzy set
         elementsList = line.split(', ')
-        print(elementsList)
         setid = elementsList[0]
         var_label = setid.split('=')
         fuzzySet.var = var_label[0]
