@@ -31,7 +31,6 @@ def processApplication(app, inputFuzzySets, outputFuzzySets, rules):
     # step 1: fuzzification
     fuzzify(app, inputFuzzySets)
     # step 2: inference
-    appOutX = np.linspace(0, 100, 1000)
     appOutY = np.zeros_like(outputFuzzySets[list(outputFuzzySets.keys())[0]].y)  # Initialize output array
     for r in rules:
         # step 2.1: compute strength of the antecedent
