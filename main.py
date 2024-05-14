@@ -55,7 +55,6 @@ def evaluateAntecedent(rule, inputFuzzySets):
     rule.strength = 1
     for ant in rule.antecedent:
         rule.strength = min(rule.strength, inputFuzzySets[ant].memDegree)
-        #print(rule.strength,inputFuzzySets[ant].memDegree)
 
 
 def evaluateConsequent(rule, outputFuzzySets):
@@ -65,26 +64,38 @@ def evaluateConsequent(rule, outputFuzzySets):
 
 
 def compose_output(rule, appOutY):
-    """Xnew = np.linspace(0, 100, len(appOutY))
-    Xold = np.linspace(0, 100, len(rule.consequentY))
-    interpolatedY = np.interp(Xnew, Xold, rule.consequentY)"""
     return np.maximum(rule.consequentY, appOutY)
 
 
 def plot_fuzzy_sets(fuzzy_sets):
     categorias = set(fs.var for fs in fuzzy_sets.values())
+    num_categorias = len(categorias)
 
-    for categoria in categorias:
-        plt.figure(figsize=(8, 4))
+    # Calcular número de filas y columnas para los subplots
+    num_cols = 3  # Número de columnas en la disposición de subplots
+    num_rows = (num_categorias + num_cols - 1) // num_cols  # Calcula el número de filas
+
+    # Crear una figura grande con subplots
+    fig, axes = plt.subplots(num_rows, num_cols, figsize=(15, 5 * num_rows))
+    axes = axes.flatten()  # Aplanar el arreglo de subplots en una sola lista
+
+    for i, categoria in enumerate(categorias):
+        ax = axes[i]  # Seleccionar el subplot actual
         for setid, fs in fuzzy_sets.items():
             if fs.var == categoria:
-                plt.plot(fs.x, fs.y, label=f'{fs.label}')
-        plt.title(f"Fuzzy Sets for {categoria}")
-        plt.xlabel("Universe")
-        plt.ylabel("Membership degree")
-        plt.legend()
-        plt.show()
+                ax.plot(fs.x, fs.y, label=f'{fs.label}')
+        ax.set_title(f"Fuzzy Sets for {categoria}")
+        ax.set_xlabel("Universe")
+        ax.set_ylabel("Membership degree")
+        ax.legend()
 
+    # Ocultar subplots no utilizados
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    # Ajustar automáticamente el diseño y mostrar la figura
+    fig.tight_layout()
+    plt.show()
 
 def plot_output_fuzzy_sets(fuzzy_sets):
     plt.figure(figsize=(8, 4))
